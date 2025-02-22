@@ -6,6 +6,6 @@ export const useProducts = (page: number, query: string) => {
   return useQuery({
     queryKey: ["products", page, query],
     queryFn: () => fetchProducts(page, query),
-    // keepPreviousData: true,
+  // keepPreviousData: true,
   });
 };
