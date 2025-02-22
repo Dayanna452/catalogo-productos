@@ -1,36 +1,153 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Proyecto de Catálogo de Productos con Next.js
 
-## Getting Started
+Este es un proyecto de catálogo de productos desarrollado con Next.js utilizando el App Router. Incluye TypeScript, TailwindCSS para el diseño, React Query para la gestión de datos, React Hook Form para el manejo de formularios y Jest con React Testing Library para pruebas.
 
-First, run the development server:
+## Tecnologías utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Next.js](https://nextjs.org/) (App Router)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [React Query](https://tanstack.com/query/latest)
+- [React Hook Form](https://react-hook-form.com/)
+- [Jest](https://jestjs.io/)
+- [React Testing Library](https://testing-library.com/)
+
+## Instalación y Configuración
+
+1. Clona el repositorio:
+
+   ```sh
+   git clone https://github.com/Dayanna452/catalogo-productos
+   cd catalogo-productos
+   ```
+
+2. Instala las dependencias:
+
+   ```sh
+   npm install
+   # o
+   yarn install
+   ```
+
+3. Configura las variables de entorno:
+   Crea un archivo `.env.local` en la raíz del proyecto y define las variables necesarias.
+
+   ```env
+   NEXT_PUBLIC_API_URL=https://fakestoreapi.com/products
+   ```
+
+4. Inicia el servidor de desarrollo:
+   ```sh
+   npm run dev
+   # o
+   yarn dev
+   ```
+
+## Estructura del Proyecto
+
+```
+/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   ├── components/
+│   ├── hooks/
+│   ├── lib/
+│   ├── styles/
+│   ├── types/
+│   ├── utils/
+│   ├── tests/
+│   ├── services/
+│   ├── store/
+├── public/
+├── .env.local
+├── next.config.ts
+├── postcss.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+├── jest.config.js
+├── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Uso de React Query
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Ejemplo de configuración de React Query:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```tsx
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-## Learn More
+const queryClient = new QueryClient();
 
-To learn more about Next.js, take a look at the following resources:
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Formularios con React Hook Form
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ejemplo de uso:
 
-## Deploy on Vercel
+```tsx
+import { useForm } from "react-hook-form";
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export default function ProductForm() {
+  const { register, handleSubmit } = useForm();
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register("name")} placeholder="Nombre del producto" />
+      <button type="submit">Enviar</button>
+    </form>
+  );
+}
+```
+
+## Pruebas con Jest y React Testing Library
+
+Ejemplo de prueba de un componente:
+
+```tsx
+import { render, screen } from "@testing-library/react";
+import ProductForm from "../components/ProductForm";
+
+test("renderiza el formulario", () => {
+  render(<ProductForm />);
+  expect(
+    screen.getByPlaceholderText("Nombre del producto")
+  ).toBeInTheDocument();
+});
+```
+
+## Construcción y Despliegue
+
+1. Construye la aplicación:
+   ```sh
+   npm run build
+   # o
+   yarn build
+   ```
+2. Ejecuta en modo producción:
+   ```sh
+   npm run start
+   # o
+   yarn start
+   ```
+3. Desplegar en Vercel:
+   ```sh
+   vercel
+   ```
+
+## Contribuciones
+
+Si deseas contribuir, por favor abre un issue o un pull request.
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT.
